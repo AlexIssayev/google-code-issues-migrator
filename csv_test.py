@@ -29,24 +29,24 @@ def github_label(name, color = "FFFFFF"):
 def github_user(name):
     try: return user_cache[name]
     except KeyError:
-        try: return label_cache.setdefault(name, github.get_user(name))
+        try: return user_cache.setdefault(name, github.get_user(name))
         except GithubException:
             raise ValueError("No such user, " + name)
 
 
 def convert_to_github(issue):
-	state = STATUS_MAPPING.get(issue["status"], "open")
-	title = issue["summary"]
-	body = str(issue)
-	creator = issue["reporter"]
-	assigned = issue["owner"]
-	labels = ["imported"]
+    state = STATUS_MAPPING.get(issue["status"], "open")
+    title = issue["summary"]
+    body = str(issue)
+    creator = issue["reporter"]
+    assigned = issue["owner"]
+    labels = ["imported"]
     for label_column in ("type", "priority", "component", "status"):
         if issue[label_column]:
             labels.append(label_column.title() + ":" + issue[label_column])
     if issue["keywords"]:
         labels += issue["keywords"].split()
-	print "{0} [{1}] Created By: {2} Assigned To: {3} Labels: {4}, Description: {5}".format(title, state, creator, assigned, labels, body)
+    print "{0} [{1}] Created By: {2} Assigned To: {3} Labels: {4}, Description: {5}".format(title, state, creator, assigned, labels, body)
     #TODO figure out assignment
     if not options.dry_run:
         github_issue = github_repo.create_issue(
@@ -79,10 +79,10 @@ if __name__ == "__main__":
 
     try:
         with open(csv_file_name, 'r') as csv_file:
-        	git_issues_reader = csv.DictReader(csv_file)
-        	github_issues = [convert_to_github(issue) for issue in git_issues_reader]
+            git_issues_reader = csv.DictReader(csv_file)
+            github_issues = [convert_to_github(issue) for issue in git_issues_reader]
         for github_issue in github_issues:
-        	print github_issue
+            print github_issue
     except Exception:
         parser.print_help()
         raise
