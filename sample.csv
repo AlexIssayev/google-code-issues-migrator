@@ -1,0 +1,2 @@
+id,summary,status,owner,type,priority,milestone,component,version,resolution,time,changetime,reporter,keywords,cc
+11,SD card driver not working in goldeneye kernel,closed,AlexIssayev,defect,major,,kernel,,fixed,11/02/12 07:37:23,11/08/12 17:59:23,AlexIssayev,,
